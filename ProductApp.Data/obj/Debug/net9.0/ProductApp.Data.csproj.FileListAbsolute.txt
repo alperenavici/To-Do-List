@@ -1,0 +1,15 @@
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/bin/Debug/net9.0/ProductApp.Data.deps.json
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/bin/Debug/net9.0/ProductApp.Data.dll
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/bin/Debug/net9.0/ProductApp.Data.pdb
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/bin/Debug/net9.0/ProductApp.Entity.dll
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/bin/Debug/net9.0/ProductApp.Entity.pdb
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ProductApp.Data.csproj.AssemblyReference.cache
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ProductApp.Data.GeneratedMSBuildEditorConfig.editorconfig
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ProductApp.Data.AssemblyInfoInputs.cache
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ProductApp.Data.AssemblyInfo.cs
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ProductApp.Data.csproj.CoreCompileInputs.cache
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ProductA.FB27146D.Up2Date
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ProductApp.Data.dll
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/refint/ProductApp.Data.dll
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ProductApp.Data.pdb
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Data/obj/Debug/net9.0/ref/ProductApp.Data.dll

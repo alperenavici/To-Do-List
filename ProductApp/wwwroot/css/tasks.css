@@ -1,0 +1,89 @@
+/* Task styles */
+.btn-pulse {
+    animation: pulse 2s infinite;
+}
+
+.bounce {
+    animation: bounce 1s;
+}
+
+.task-item {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.task-item::before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 0;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #3282b8;
+    transition: height 0.3s ease-in-out;
+}
+
+.task-item:hover::before {
+    height: 70%;
+}
+
+.btn-glow {
+    animation: glow 2s infinite;
+}
+
+.success-icon {
+    animation: tada 1s;
+}
+
+.pulse {
+    animation: pulseEffect 2s infinite;
+}
+
+/* Date picker styling */
+.date-picker {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-calendar" viewBox="0 0 16 16"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    cursor: pointer;
+}
+
+/* Task list layout */
+.task-list {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+}
+
+.task-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+    background: rgba(13, 17, 23, 0.5);
+}
+
+.task-list::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.task-list::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .task-actions {
+        margin-top: 10px;
+    }
+
+    .d-flex.justify-content-between.align-items-center {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+
+    .task-list {
+        max-height: 60vh;
+    }
+}

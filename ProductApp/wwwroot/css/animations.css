@@ -1,0 +1,298 @@
+/* CSS Variables */
+:root {
+    --primary-color: #3282b8;
+    --primary-dark: #286090;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --light-bg: #f8f9fa;
+    --dark-bg: #0d1117;
+
+    /* Dark theme colors */
+    --dark-body-bg: #0d1117;
+    --dark-card-bg: #161b22;
+    --dark-text: rgba(255, 255, 255, 0.9);
+    --dark-text-secondary: rgba(255, 255, 255, 0.5);
+    --dark-border: rgba(255, 255, 255, 0.05);
+    --dark-input-bg: rgba(13, 17, 23, 0.8);
+    --dark-hover: #1c242f;
+
+    /* Animation settings */
+    --animation-duration: 0.4s;
+    --animation-timing: ease-out;
+    --animation-stagger: 0.05s;
+}
+
+/* Performance optimizations for animations */
+.optimize-animations * {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+}
+
+/* Animations for Task App */
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translate3d(-20px, 0, 0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translate3d(20px, 0, 0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale3d(0.95, 0.95, 0.95);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale3d(1.02, 1.02, 1.02);
+    }
+
+    100% {
+        transform: scale3d(1, 1, 1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -10px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* Error page animations */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    25%,
+    75% {
+        transform: rotate(2deg);
+    }
+
+    50% {
+        transform: rotate(-2deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale3d(1, 1, 1);
+    }
+
+    50% {
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+}
+
+@keyframes homePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(50, 130, 184, 0.6);
+    }
+
+    70% {
+        box-shadow: 0 0 0 8px rgba(50, 130, 184, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(50, 130, 184, 0);
+    }
+}
+
+/* Task Index page animations */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(40, 167, 69, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.6);
+    }
+}
+
+@keyframes tada {
+
+    0%,
+    100% {
+        transform: scale3d(1, 1, 1);
+    }
+
+    10%,
+    20% {
+        transform: scale3d(0.95, 0.95, 0.95) rotate(-2deg);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: scale3d(1.05, 1.05, 1.05) rotate(2deg);
+    }
+
+    40%,
+    60% {
+        transform: scale3d(1.05, 1.05, 1.05) rotate(-2deg);
+    }
+}
+
+@keyframes pulseEffect {
+
+    0%,
+    100% {
+        transform: scale3d(1, 1, 1);
+    }
+
+    50% {
+        transform: scale3d(1.03, 1.03, 1.03);
+    }
+}
+
+/* Dark theme specific animations */
+@keyframes subtleGlow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 3px rgba(50, 130, 184, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 6px rgba(50, 130, 184, 0.5);
+    }
+}
+
+@keyframes borderPulse {
+
+    0%,
+    100% {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    50% {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Animation utility classes */
+.animate-fade-in {
+    animation: fadeIn var(--animation-duration) var(--animation-timing);
+}
+
+.animate-slide-left {
+    animation: slideInLeft var(--animation-duration) var(--animation-timing);
+}
+
+.animate-slide-right {
+    animation: slideInRight var(--animation-duration) var(--animation-timing);
+}
+
+.animate-bounce {
+    animation: bounceIn var(--animation-duration) var(--animation-timing);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    :root {
+        --animation-duration: 0.3s;
+        /* Even faster on mobile */
+    }
+
+    /* Disable certain animations on mobile for performance */
+    .calendar-container {
+        animation: none !important;
+    }
+
+    .calendar-day {
+        transform: none !important;
+    }
+
+    .task-dot {
+        animation: none !important;
+    }
+
+    .weekday {
+        animation: none !important;
+    }
+
+    .day-cell {
+        animation: none !important;
+    }
+
+    .task-pill {
+        transition: background-color 0.2s ease !important;
+        animation: none !important;
+    }
+
+    /* Only animate low-cost properties on mobile */
+    .mobile-optimize {
+        transform: none !important;
+        transition: opacity 0.3s ease, background-color 0.3s ease !important;
+        animation: none !important;
+    }
+}

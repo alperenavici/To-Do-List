@@ -1,0 +1,73 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "ProductApp.Services/1.0.0": {
+        "dependencies": {
+          "ProductApp.Core": "1.0.0",
+          "ProductApp.Data": "1.0.0",
+          "ProductApp.Entity": "1.0.0"
+        },
+        "runtime": {
+          "ProductApp.Services.dll": {}
+        }
+      },
+      "ProductApp.Core/1.0.0": {
+        "dependencies": {
+          "ProductApp.Entity": "1.0.0"
+        },
+        "runtime": {
+          "ProductApp.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ProductApp.Data/1.0.0": {
+        "dependencies": {
+          "ProductApp.Entity": "1.0.0"
+        },
+        "runtime": {
+          "ProductApp.Data.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "ProductApp.Entity/1.0.0": {
+        "runtime": {
+          "ProductApp.Entity.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ProductApp.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ProductApp.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ProductApp.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ProductApp.Entity/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

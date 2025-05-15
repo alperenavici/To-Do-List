@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "eBTdX+SSty/vFPrWU9JGMZsfYnpqv86IY3AwtzsnIgg=",
+  "Source": "ProductApp.Web",
+  "BasePath": "_content/ProductApp.Web",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

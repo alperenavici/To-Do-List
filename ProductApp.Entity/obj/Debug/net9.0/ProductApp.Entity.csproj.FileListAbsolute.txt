@@ -1,0 +1,11 @@
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/bin/Debug/net9.0/ProductApp.Entity.deps.json
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/bin/Debug/net9.0/ProductApp.Entity.dll
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/bin/Debug/net9.0/ProductApp.Entity.pdb
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/obj/Debug/net9.0/ProductApp.Entity.GeneratedMSBuildEditorConfig.editorconfig
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/obj/Debug/net9.0/ProductApp.Entity.AssemblyInfoInputs.cache
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/obj/Debug/net9.0/ProductApp.Entity.AssemblyInfo.cs
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/obj/Debug/net9.0/ProductApp.Entity.csproj.CoreCompileInputs.cache
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/obj/Debug/net9.0/ProductApp.Entity.dll
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/obj/Debug/net9.0/refint/ProductApp.Entity.dll
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/obj/Debug/net9.0/ProductApp.Entity.pdb
+/Users/alperenavci/RiderProjects/ProductApp.Web/ProductApp.Entity/obj/Debug/net9.0/ref/ProductApp.Entity.dll

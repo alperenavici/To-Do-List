@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ProductApp.Core\ProductApp.Core.csproj" />
+      <ProjectReference Include="..\ProductApp.Data\ProductApp.Data.csproj" />
+      <ProjectReference Include="..\ProductApp.Entity\ProductApp.Entity.csproj" />
+    </ItemGroup>
+
+</Project>

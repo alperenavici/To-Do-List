@@ -1,0 +1,392 @@
+@model List<ProductApp.Entity.TodoTask>
+
+<div class="container" id="container" style="opacity: 0;">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h1 class="page-title mb-0">
+                    <i class="fas fa-calendar me-2 text-primary"></i> Calendar View
+                </h1>
+                <a asp-controller="Tasks" asp-action="Index" class="btn btn-outline-primary">
+                    <i class="fas fa-list me-2"></i> List View
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-lg-8" id="calendarCard" style="opacity: 0;">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="m-0 text-white">Select Date</h5>
+                        <div>
+                            <span id="currentMonthYear" class="text-white"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="modern-calendar-container">
+                        <div class="calendar-navigation mb-3">
+                            <button id="prevMonth" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button id="nextMonth" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="modern-calendar">
+                            <div class="calendar-header">
+                                <div>Su</div>
+                                <div>Mo</div>
+                                <div>Tu</div>
+                                <div>We</div>
+                                <div>Th</div>
+                                <div>Fr</div>
+                                <div>Sa</div>
+                            </div>
+                            <div id="calendarBody" class="calendar-body">
+                                <!-- Calendar will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4" id="addTaskCard" style="opacity: 0;">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary bg-opacity-25">
+                    <h5 class="m-0">
+                        <i class="fas fa-plus-circle me-2 text-primary"></i> Add New Task
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="Tasks" asp-action="Add" class="row g-3">
+                        <div class="col-12">
+                            <label for="name" class="form-label">Task Title</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter task title..." required />
+                        </div>
+                        <div class="col-12">
+                            <label for="dueDate" class="form-label">Due Date</label>
+                            <input type="date" class="form-control date-picker" id="dueDate" name="dueDate" />
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-plus me-1"></i> Add Task
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" id="taskCard" style="opacity: 0;">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary bg-opacity-25">
+                    <h5 class="m-0">
+                        <i class="fas fa-tasks me-2 text-primary"></i> Tasks For <span id="selectedDateDisplay">Today</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="tasksForDate" class="task-list-container">
+                        <div class="text-center p-5">
+                            <i class="fas fa-calendar-check text-secondary mb-3" style="font-size: 3rem;"></i>
+                            <h5 class="text-light">Select a date to view tasks</h5>
+                            <p class="text-secondary">Click on any date in the calendar to view tasks for that day</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate page elements first
+            function fadeIn(element, delay) {
+                setTimeout(() => {
+                    element.style.transition = 'opacity 0.4s ease';
+                    element.style.opacity = '1';
+                }, delay);
+            }
+            
+            // Fade in main container and cards with staggered timing
+            const container = document.getElementById('container');
+            const calendarCard = document.getElementById('calendarCard');
+            const addTaskCard = document.getElementById('addTaskCard');
+            const taskCard = document.getElementById('taskCard');
+            
+            fadeIn(container, 100);
+            fadeIn(calendarCard, 200);
+            fadeIn(addTaskCard, 300);
+            fadeIn(taskCard, 400);
+            
+            // Cache DOM elements
+            const calendarBody = document.getElementById('calendarBody');
+            const currentMonthYearDisplay = document.getElementById('currentMonthYear');
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+            const dueDateInput = document.getElementById('dueDate');
+            const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+            const tasksForDateContainer = document.getElementById('tasksForDate');
+            
+            // Store tasks data
+            const tasks = @Html.Raw(Json.Serialize(Model));
+            
+            // Store current date information
+            let currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+            let selectedDate = formatDateString(currentDate);
+            
+            // Store calendar DOM elements for performance
+            let calendarDayElements = [];
+            
+            // Initialize calendar
+            renderCalendar(currentMonth, currentYear);
+            
+            // Event listeners
+            prevMonthBtn.addEventListener('click', function() {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            nextMonthBtn.addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            // Calendar rendering function - optimized for performance
+            function renderCalendar(month, year) {
+                // Use document fragment for better performance
+                const fragment = document.createDocumentFragment();
+                
+                // Clear previous calendar
+                calendarBody.innerHTML = '';
+                
+                // Update month/year display
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                currentMonthYearDisplay.textContent = `${monthNames[month]} ${year}`;
+                
+                // Get first day of month and days in month
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                
+                // Get days from previous month
+                const prevMonthDays = new Date(year, month, 0).getDate();
+                
+                // Calculate days needed from previous month
+                let prevMonthCells = firstDay;
+                
+                // Reset calendar day elements array
+                calendarDayElements = [];
+                
+                // Add previous month days
+                for (let i = prevMonthDays - prevMonthCells + 1; i <= prevMonthDays; i++) {
+                    let prevMonth = month - 1 < 0 ? 11 : month - 1;
+                    let prevYear = prevMonth === 11 ? year - 1 : year;
+                    let dateString = formatDateString(new Date(prevYear, prevMonth, i));
+                    
+                    const dayElement = createDayElement(i, dateString, true);
+                    fragment.appendChild(dayElement);
+                    calendarDayElements.push(dayElement);
+                }
+                
+                // Add current month days - in batches for performance
+                const processDays = (start, end) => {
+                    for (let i = start; i <= end; i++) {
+                        let dateString = formatDateString(new Date(year, month, i));
+                        const dayElement = createDayElement(i, dateString, false);
+                        fragment.appendChild(dayElement);
+                        calendarDayElements.push(dayElement);
+                    }
+                };
+                
+                // Process days in smaller batches for smoother rendering
+                const batchSize = 7;
+                for (let i = 1; i <= daysInMonth; i += batchSize) {
+                    processDays(i, Math.min(i + batchSize - 1, daysInMonth));
+                }
+                
+                // Calculate days needed from next month
+                const totalCellsNeeded = Math.ceil((firstDay + daysInMonth) / 7) * 7;
+                const nextMonthCells = totalCellsNeeded - (firstDay + daysInMonth);
+                
+                // Add next month days
+                for (let i = 1; i <= nextMonthCells; i++) {
+                    let nextMonth = month + 1 > 11 ? 0 : month + 1;
+                    let nextYear = nextMonth === 0 ? year + 1 : year;
+                    let dateString = formatDateString(new Date(nextYear, nextMonth, i));
+                    
+                    const dayElement = createDayElement(i, dateString, true);
+                    fragment.appendChild(dayElement);
+                    calendarDayElements.push(dayElement);
+                }
+                
+                // Append all elements at once for better performance
+                calendarBody.appendChild(fragment);
+                
+                // Select the previously selected date if it's visible
+                const selectedElement = calendarDayElements.find(el => 
+                    el.dataset.date === selectedDate && !el.classList.contains('other-month')
+                );
+                
+                if (selectedElement) {
+                    selectedElement.classList.add('selected');
+                    loadTasksForDate(selectedDate);
+                }
+            }
+            
+            // Helper function to create a day element
+            function createDayElement(day, dateString, isOtherMonth) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('calendar-day');
+                dayElement.textContent = day;
+                dayElement.dataset.date = dateString;
+                
+                if (isOtherMonth) {
+                    dayElement.classList.add('other-month');
+                }
+                
+                // Check if it's today
+                if (dateString === formatDateString(new Date())) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Check if it has tasks - use efficient lookup
+                const hasTasks = tasks.some(task => task.dueDate && formatDateString(new Date(task.dueDate)) === dateString);
+                if (hasTasks) {
+                    dayElement.classList.add('has-tasks');
+                }
+                
+                // Add click event to select date - using event delegation would be better for performance
+                dayElement.addEventListener('click', function() {
+                    // Remove selected class from all days
+                    calendarDayElements.forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked day
+                    this.classList.add('selected');
+                    
+                    // Update selected date
+                    selectedDate = this.dataset.date;
+                    
+                    // Update date input
+                    if (dueDateInput) {
+                        dueDateInput.value = selectedDate;
+                    }
+                    
+                    // Load tasks for the selected date
+                    loadTasksForDate(selectedDate);
+                });
+                
+                return dayElement;
+            }
+            
+            // Helper function to format date as YYYY-MM-DD
+            function formatDateString(date) {
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const day = date.getDate().toString().padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+            
+            // Function to format date for display
+            function formatDateForDisplay(dateString) {
+                const date = new Date(dateString);
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+            
+            // Load tasks for a specific date - optimized for performance
+            function loadTasksForDate(dateString) {
+                // Update date display
+                selectedDateDisplay.textContent = formatDateForDisplay(dateString);
+                
+                // Filter tasks for the selected date - cache formatted dates for better performance
+                const tasksForDate = tasks.filter(task => 
+                    task.dueDate && formatDateString(new Date(task.dueDate)) === dateString
+                );
+                
+                // Update tasks container with a single DOM update
+                if (tasksForDate.length > 0) {
+                    // Create a document fragment for better performance
+                    const fragment = document.createDocumentFragment();
+                    
+                    tasksForDate.forEach(task => {
+                        const taskElement = document.createElement('div');
+                        taskElement.className = `task-item ${task.isCompleted ? 'completed' : ''}`;
+                        
+                        taskElement.innerHTML = `
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="task-title mb-1">${task.title || task.name}</h5>
+                                    <p class="mb-0 small text-secondary">${task.description || ''}</p>
+                                </div>
+                                <div>
+                                    ${!task.isCompleted ? 
+                                        `<form method="post" action="/Tasks/Complete">
+                                            <input type="hidden" name="id" value="${task.id}" />
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-check me-1"></i> Complete
+                                            </button>
+                                        </form>` : 
+                                        `<span class="badge bg-success">Completed</span>`
+                                    }
+                                </div>
+                            </div>
+                        `;
+                        
+                        fragment.appendChild(taskElement);
+                    });
+                    
+                    // Replace content with a single operation
+                    tasksForDateContainer.innerHTML = '';
+                    tasksForDateContainer.appendChild(fragment);
+                } else {
+                    tasksForDateContainer.innerHTML = `
+                        <div class="text-center p-4">
+                            <i class="fas fa-clipboard text-secondary mb-3" style="font-size: 2rem;"></i>
+                            <h5 class="text-light">No Tasks</h5>
+                            <p class="text-secondary">No tasks scheduled for this date</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Set initial date if present in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('date')) {
+                const dateParam = urlParams.get('date');
+                try {
+                    const paramDate = new Date(dateParam);
+                    if (!isNaN(paramDate.getTime())) {
+                        selectedDate = formatDateString(paramDate);
+                        currentMonth = paramDate.getMonth();
+                        currentYear = paramDate.getFullYear();
+                        renderCalendar(currentMonth, currentYear);
+                    }
+                } catch (e) {
+                    console.error('Invalid date parameter');
+                }
+            } else {
+                // Load today's tasks by default
+                loadTasksForDate(selectedDate);
+            }
+        });
+    </script>
+} 

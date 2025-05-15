@@ -1,0 +1,90 @@
+/* Predefined particle animations */
+.particle-1 {
+    animation: floating1 60s infinite ease-in-out;
+}
+
+.particle-2 {
+    animation: floating2 70s infinite ease-in-out;
+}
+
+.particle-3 {
+    animation: floating3 80s infinite ease-in-out;
+}
+
+.particle-4 {
+    animation: floating4 90s infinite ease-in-out;
+}
+
+.particle-5 {
+    animation: floating5 100s infinite ease-in-out;
+}
+
+@keyframes floating1 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(30px, 20px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes floating2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-25px, 15px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes floating3 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(20px, -20px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes floating4 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-15px, -15px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes floating5 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(10px, 25px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}

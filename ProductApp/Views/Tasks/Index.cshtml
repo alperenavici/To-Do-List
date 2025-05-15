@@ -1,0 +1,252 @@
+﻿@model List<ProductApp.Entity.TodoTask>
+
+<h1 class="page-title">Task Manager Dashboard</h1>
+
+<div class="row mb-3">
+    <div class="col-12 text-end">
+        <a asp-controller="Tasks" asp-action="Calendar" asp-route-month="@ViewBag.CurrentMonth" asp-route-year="@ViewBag.CurrentYear" class="btn btn-outline-primary">
+            <i class="fas fa-calendar-alt me-2"></i> Calendar View
+        </a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-lg-4 mb-4 mb-lg-0" style="opacity: 0;" id="addTaskCard">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center">
+                <i class="fas fa-plus-circle me-2 text-primary"></i>
+                <h5 class="mb-0">Add New Task</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-action="Add">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Task Title</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter task title..." required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="dueDate" class="form-label">Due Date</label>
+                        <input type="date" class="form-control date-picker" id="dueDate" name="dueDate" />
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-pulse">
+                            <i class="fas fa-plus me-1"></i> Add Task
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-8" style="opacity: 0;" id="taskListCard">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <div>
+                    <i class="fas fa-tasks me-2 text-primary"></i>
+                    <h5 class="d-inline mb-0">My Tasks</h5>
+                </div>
+                <span class="badge bg-primary rounded-pill pulse">
+                    @(Model?.Count ?? 0) Tasks
+                </span>
+            </div>
+            <div class="card-body p-0">
+                @if (Model != null && Model.Any())
+                {
+                    <div class="list-group list-group-flush task-list">
+                        @foreach (var task in Model.Select((item, index) => new { Item = item, Index = index }))
+                        {
+                            <div class="list-group-item border-0 border-bottom p-3 @(task.Item.IsCompleted ? "bg-dark bg-opacity-50" : "") task-item" 
+                                 data-index="@task.Index" style="opacity: 0;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="task-content @(task.Item.IsCompleted ? "text-secondary" : "")">
+                                        <h5 class="mb-1 @(task.Item.IsCompleted ? "text-decoration-line-through" : "")">
+                                            @(string.IsNullOrEmpty(task.Item.Title) ? task.Item.Name : task.Item.Title)
+                                        </h5>
+                                        <p class="mb-1 small @(task.Item.IsCompleted ? "text-secondary" : "text-light-emphasis")">@task.Item.Description</p>
+                                        <div class="d-flex align-items-center flex-wrap">
+                                            <span class="badge @(task.Item.IsCompleted ? "bg-success" : "bg-warning") me-2 bounce">
+                                                @(task.Item.IsCompleted ? "Completed" : "Pending")
+                                            </span>
+                                            @if (task.Item.DueDate.HasValue)
+                                            {
+                                                <span class="badge @GetDueDateBadgeClass(task.Item.DueDate.Value) me-2">
+                                                    <i class="fas fa-calendar-day me-1"></i>
+                                                    @task.Item.DueDate.Value.ToString("MMM d, yyyy")
+                                                </span>
+                                            }
+                                            <small class="text-secondary">ID: @task.Item.Id</small>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="task-actions">
+                                        @if (!task.Item.IsCompleted)
+                                        {
+                                            <form method="post" asp-controller="Tasks" asp-action="Complete" class="d-inline">
+                                                <input type="hidden" name="id" value="@task.Item.Id" />
+                                                <button type="submit" class="btn btn-success btn-sm btn-glow">
+                                                    <i class="fas fa-check me-1"></i> Complete
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-success success-icon">
+                                                <i class="fas fa-check-circle me-1"></i> Done
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center p-5" id="emptyTaskList" style="opacity: 0;">
+                        <i class="fas fa-clipboard-list text-secondary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="text-light">No Tasks Yet</h5>
+                        <p class="text-secondary">Add your first task to get started!</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetDueDateBadgeClass(DateTime dueDate)
+    {
+        var today = DateTime.Today;
+        
+        if (dueDate.Date < today)
+            return "bg-danger"; // Overdue
+        
+        if (dueDate.Date == today)
+            return "bg-info"; // Due today
+            
+        if (dueDate.Date <= today.AddDays(3))
+            return "bg-warning"; // Due soon (within 3 days)
+            
+        return "bg-secondary"; // Due in the future
+    }
+}
+
+@section Scripts {
+    <script>
+        // Optimize animations for smooth performance
+        document.addEventListener('DOMContentLoaded', function() {
+            // Utility function for smooth animations
+            const animate = (element, animation, delay = 0) => {
+                setTimeout(() => {
+                    // Perform animation
+                    if (animation === 'fadeIn') {
+                        element.style.transition = 'opacity 0.4s ease';
+                        element.style.opacity = '1';
+                    } else if (animation === 'slideIn') {
+                        element.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                }, delay);
+            };
+            
+            // Animate main card sections with a simple fade
+            const addTaskCard = document.getElementById('addTaskCard');
+            const taskListCard = document.getElementById('taskListCard');
+            const emptyTaskList = document.getElementById('emptyTaskList');
+            
+            // Start card animations
+            animate(addTaskCard, 'fadeIn', 100);
+            animate(taskListCard, 'fadeIn', 200);
+            
+            if (emptyTaskList) {
+                animate(emptyTaskList, 'fadeIn', 300);
+            }
+            
+            // Animate task items with a staggered delay
+            const taskItems = document.querySelectorAll('.task-item');
+            taskItems.forEach((item, index) => {
+                // Prepare for sliding animation
+                item.style.transform = 'translateY(20px)';
+                
+                // Apply animation with staggered timing
+                animate(item, 'slideIn', 300 + (index * 50));
+            });
+            
+            // Enhanced hover effects for task items
+            const listItems = document.querySelectorAll('.task-item');
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            if (!isTouchDevice) {
+                listItems.forEach(item => {
+                    item.addEventListener('mouseenter', function() {
+                        if (!this.classList.contains('bg-dark')) {
+                            this.style.backgroundColor = 'rgba(30, 36, 47, 0.9)';
+                            this.style.transform = 'translateX(5px)';
+                        }
+                    });
+                    
+                    item.addEventListener('mouseleave', function() {
+                        if (!this.classList.contains('bg-dark')) {
+                            this.style.backgroundColor = '';
+                            this.style.transform = 'translateX(0)';
+                        }
+                    });
+                });
+            }
+            
+            // Interactive form elements with subtle feedback
+            const taskInput = document.getElementById('name');
+            const addButton = document.querySelector('.btn-pulse');
+            
+            if (taskInput && addButton) {
+                taskInput.addEventListener('focus', function() {
+                    addButton.style.transform = 'scale(1.05)';
+                    addButton.style.boxShadow = '0 0 10px rgba(50, 130, 184, 0.5)';
+                });
+                
+                taskInput.addEventListener('blur', function() {
+                    addButton.style.transform = '';
+                    addButton.style.boxShadow = '';
+                });
+            }
+            
+            // Enhance date picker with subtle feedback
+            const datePicker = document.getElementById('dueDate');
+            if (datePicker) {
+                datePicker.addEventListener('focus', function() {
+                    this.style.boxShadow = '0 0 0 3px rgba(50, 130, 184, 0.25)';
+                });
+                
+                datePicker.addEventListener('blur', function() {
+                    this.style.boxShadow = '';
+                });
+            }
+            
+            // Optimize layout for mobile
+            function adjustLayoutForMobile() {
+                const isMobile = window.innerWidth <= 768;
+                
+                if (isMobile) {
+                    document.querySelectorAll('.task-content').forEach(content => {
+                        content.style.width = '100%';
+                        content.style.marginBottom = '10px';
+                    });
+                } else {
+                    document.querySelectorAll('.task-content').forEach(content => {
+                        content.style.width = '';
+                        content.style.marginBottom = '';
+                    });
+                }
+            }
+            
+            // Run on load and on resize with debounce
+            adjustLayoutForMobile();
+            
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(adjustLayoutForMobile, 100);
+            });
+        });
+    </script>
+}
